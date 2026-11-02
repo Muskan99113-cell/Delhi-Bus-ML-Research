@@ -16,9 +16,6 @@ The complete research paper explaining the project methodology, dataset, machine
 
 📄 **[Read Research Paper (PDF)](paper.pdf)**
 
-📝 **[Read Editable Research Paper (DOCX)](outputs/paper.docx)**
-
-The PDF version is provided for convenient reading, while the DOCX version provides an editable copy.
 
 ## 3. Problem Statement
 
