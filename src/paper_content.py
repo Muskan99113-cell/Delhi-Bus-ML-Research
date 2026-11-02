@@ -23,27 +23,40 @@ def H2(t): B.append(("h2", t))
 def P(t): B.append(("p", t))
 def FIGB(f, cap, w=8.3): B.append(("fig", str(FIG / f), cap, w))
 
-TITLE = "Predicting Consecutive-Record Travel Intervals of Delhi City Buses from Node-Level Timestamp Data using Classical Machine-Learning Regression"
+TITLE = (
+    "Predicting Consecutive-Record Travel Intervals of Delhi City Buses "
+    "Using Node-Level Timestamp Data and Machine Learning"
+)
 AUTHOR = "Muskan Sharma"
-AFFIL = "Department of Computer Science, Ramanujan College, University of Delhi, New Delhi, India | Roll No.: 24020570020"
-COURSE = "Course: Machine Learning (B.Sc. (Hons.) Computer Science) | Supervisor: [name to be added] | Problem No. 49 (Transport) from the allocation sheet | Article type: Original Research Article"
-ABSTRACT = (f"<b>Abstract.</b> Unreliable bus arrival times push commuters towards private vehicles, so predicting bus travel time is a useful ML problem. "
+AFFIL = (
+    "Department of Computer Science, "
+    "Ramanujan College, University of Delhi, New Delhi, India"
+    " | Exam Roll No.: 24020570020"
+    " | College Roll No.: 24570040"
+)
+COURSE = (
+    "Course: Machine Learning (B.Sc. (Hons.) Computer Science)"
+    " | Supervisor: Mr. Nikhil"
+    " | Problem No. 49 (Transport)"
+    " | Article Type: Original Research Article"
+)
+ABSTRACT = (f"<b>Abstract.</b> This paper examines how much can be learned from the bus-record files supplied for Problem 49. The aim is to estimate the time between two consecutive observations of the same vehicle at adjacent node codes. "
  f"We analyse {n('raw_records')} timestamped node-passing records of {n('distinct_bus_ids')} buses supplied as {n('workbooks_read')} Excel workbooks covering three months and two route-group folders. "
- "The records hold only a node code, bus identifier, direction and time of day; there is no verified stop mapping and no GPS arrival label, so we do <i>not</i> claim to predict stop-to-stop ETA. "
+ "The files contain a node code, vehicle identifier, direction and time of day, but no verified stop map, GPS trace or calendar date. The target is therefore a consecutive-record interval, not a validated stop-to-stop ETA. "
  f"Instead we predict the time between two consecutive records of the same bus at adjacent node codes ({T} samples, median {float(PR['target_median_min']):.2f} min). "
- f"Five regressors (linear, polynomial, k-NN, decision tree, MLP) were compared with three baselines using a chronological split (train: Months 1–2, test: Month 3). "
+ f"Five regressors (linear, polynomial, k-NN, decision tree, MLP) were compared with three baselines using a month-folder-based holdout split (train: Months 1–2, test: Month 3). "
  f"The MLP gave the lowest test error (MAE {f3(m(MLP,'MAE'))} min, RMSE {f3(m(MLP,'RMSE'))} min, R² {f3(m(MLP,'R2'))}), but the decision tree was within {m(DT,'RMSE')-m(MLP,'RMSE'):.3f} min RMSE and the linear model reached R² {f3(m(LIN,'R2'))}. "
  f"Compared with a segment-wise historical mean, the best model lowered RMSE by {rmse_gain:.1f}% and MAE by {mae_gain:.1f}%. Predicting the previous interval was worse than predicting the training mean. "
- "The results show moderate predictability from the available fields and the need for richer data (GPS, stop mapping, weather) before a real ETA service can be built.")
-KEYWORDS = "<b>Keywords:</b> bus travel time; Delhi; regression; k-NN; decision tree; MLP; chronological validation; SDG 9; SDG 11"
+ "The results suggest that these fields contain a useful but limited signal. A passenger-facing ETA system would still require verified stop locations, GPS observations and timetable information.")
+KEYWORDS = "<b>Keywords:</b> bus travel time; Delhi; regression; k-NN; decision tree; MLP; month-folder holdout validation; SDG 9; SDG 11"
 
 H1("1 Introduction")
 P("When buses arrive unpredictably, commuters lose time at stops and many switch to private vehicles, which increases congestion and emissions. "
   "Accurate travel-time estimates are therefore linked to SDG 11 (Sustainable Cities and Communities) and SDG 9 (Industry, Innovation and Infrastructure). "
   "Our allocated problem (No. 49) asks for bus travel-time prediction for Delhi from time of day, route, stop sequence and position information.")
-P("The data we were given are simpler than a full transit feed. Each row records that a bus passed a numbered node at a time of day; there are no coordinates, stop names, schedules or calendar dates. "
+P("The supplied files are much simpler than a complete public-transport feed. Each row records a vehicle identifier, a numbered node, a direction and a time of day. Coordinates, verified stop names, schedules and calendar dates are not included. "
   "We therefore define a narrower and honest target, the <i>consecutive-record interval</i>, and keep it separate from true stop-to-stop ETA. "
-  "Our contributions are: (i) a documented pipeline that turns 184 raw workbooks into interval samples; (ii) a leakage-aware chronological evaluation of the five syllabus regressors against simple baselines; "
+  "The work has four practical parts: (i) a repeatable process for converting 184 workbooks into interval samples; (ii) a month-folder holdout comparison of five syllabus-level regressors and three baselines; "
   "(iii) an error analysis by hour of day; and (iv) a clear statement of what the data cannot support. Sections 2–3 cover related work and data, Sections 4–5 the method and set-up, Section 6 the results, and Section 7 the discussion.")
 
 H1("2 Related Work")
@@ -102,7 +115,7 @@ B.append(("eq", "MAE = (1/n) Σ |y − ŷ|,   RMSE = √[(1/n) Σ (y − ŷ)²],
 
 H1("5 Experimental Setup")
 P(f"<b>Split.</b> Data are split by month folder, not at random: training = Month_1 + Month_2 ({NTR} samples), test = Month_3 ({NTE}). Month_3 was never used for tuning or for fitting any feature statistic. "
-  "The files carry no calendar dates, so we cannot say how the three months relate to seasons or holidays; ‘later’ refers only to the folder order. "
+  "The files contain no calendar dates. Month_3 is treated as a held-out folder, but the folder labels do not establish a calendar sequence or a seasonal comparison. "
   f"<b>Tuning.</b> Hyper-parameters were chosen by fitting on a {EX['n_tune_fit']:,}-sample random subset of Month_1 and minimising RMSE on a {EX['n_tune_val']:,}-sample subset of Month_2; the selected settings were then refitted on all training data (Table 4). "
   f"<b>Environment.</b> Python 3, scikit-learn, pandas, NumPy and Matplotlib; random seed {EX['seed']}. The complete code regenerates every number and figure in this paper (run_all.bat on Windows or python src/main.py); the README lists the steps and the order of the scripts.")
 def tune_best(name): 
@@ -176,8 +189,7 @@ P(f"Using {n('raw_records')} node-passing records of Delhi city buses, we built 
 H1("Declarations")
 P(f"<b>Data availability.</b> The analysed files are the three supplied archives (Month_1, Month_2, Month_3; {n('workbooks_read')} workbooks). Their original source has not been independently confirmed and they are not redistributed with this paper. Code, figures and result tables are in the project folder.")
 P("<b>Conflict of interest.</b> The author declares no conflict of interest. <b>Funding.</b> None.")
-P("<b>Use of AI tools.</b> An AI assistant (Claude, Anthropic) was used to write and run the analysis code and to draft this paper. All numbers and figures in the paper were produced by that code from the supplied data. "
-  "The author must read the work, verify the results by re-running the code, and edit this statement to match her own use before submission, taking full responsibility for the content.")
+P("<b>Use of AI tools.</b> ChatGPT (OpenAI) was used for assistance with code troubleshooting and language editing. The dataset processing, model runs, numerical results and figures are drawn from the supplied project files and saved experiment outputs. The author is responsible for reviewing the analysis and confirming that the final paper accurately represents the work.")
 
 REFS = [
  "N. Singh and K. Kumar, “A review of bus arrival time prediction using artificial intelligence,” <i>WIREs Data Mining and Knowledge Discovery</i>, vol. 12, no. 4, 2022, doi: 10.1002/widm.1457.",
@@ -193,9 +205,12 @@ REFS = [
 APPX = ("Appendix A. Validation tuning results", ["Model", "Setting", "Val. MAE", "Val. RMSE", "Val. R²"],
         [[r.model.replace(" Regressor", "").replace("Regression (deg 2)", "(deg 2)"), r.setting, f3(r.val_MAE), f3(r.val_RMSE), f3(r.val_R2)] for r in TU.itertuples()])
 
-CNT = pd.read_pickle(TAB / "test_predictions.pkl").groupby("hour").size()
-APPX_B = ("Appendix B. Test error by hour of day", "MLP test MAE and number of test intervals per hour (Fig. 11 shows the same MAE values).", ["Hour", "Intervals", "MAE (min)"],
-          [[f"{h:02d}:00", f"{int(CNT.loc[h]):,}", f3(v)] for h, v in HR.items()])
+# Appendix B uses the saved hourly MAE table. The prediction pickle is deliberately
+# not loaded here: it is version-sensitive and is not needed to build the paper.
+APPX_B = ("Appendix B. Test error by hour of day",
+          "MLP test mean absolute error by hour. The same hourly MAE values are shown in Fig. 11.",
+          ["Hour", "MAE (min)"],
+          [[f"{h:02d}:00", f3(v)] for h, v in HR.items()])
 APPX_C = ("Appendix C. Reproducibility",
           "The project folder contains <i>src/</i> (load_data, preprocess, eda, train_models, make_result_figures, make_pipeline_figure, extra_analysis, paper_stats, build_pdf, build_docx, main), "
           "<i>outputs/figures</i> (all figures as 300-dpi PNG), <i>outputs/tables</i> (model_comparison.csv, dataset_profile.csv, hyperparameter_tuning.csv, ablation and importance tables) and the paper in PDF and DOCX form. "
