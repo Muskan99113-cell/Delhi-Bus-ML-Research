@@ -1,0 +1,26 @@
+{
+  "seed": 42,
+  "n_train": 585678,
+  "n_test": 281896,
+  "n_tune_fit": 120000,
+  "n_tune_val": 100000,
+  "features": [
+    "from_node",
+    "dir",
+    "group_id",
+    "hour_sin",
+    "hour_cos",
+    "is_peak",
+    "pos_in_run",
+    "seg_hist_mean",
+    "prev_interval_min",
+    "prev_missing"
+  ],
+  "chosen": {
+    "Linear Regression": "default",
+    "Polynomial Regression (deg 2)": "deg2",
+    "k-NN Regressor": "k=50,uniform",
+    "Decision Tree": "depth=14,leaf=50",
+    "MLP Regressor": "h=(128, 64),a=0.01"
+  }
+}

@@ -1,0 +1,84 @@
+{
+ "recs_by_month_group": {
+  "Month_1_425": 62622,
+  "Month_1_534": 250085,
+  "Month_2_425": 60605,
+  "Month_2_534": 248816,
+  "Month_3_425": 62561,
+  "Month_3_534": 239686
+ },
+ "pairs_by_month": {
+  "Month_1": 294575,
+  "Month_2": 291103,
+  "Month_3": 281896
+ },
+ "target_by_month": {
+  "Month_1": {
+   "mean": 1.826,
+   "median": 1.333,
+   "std": 1.85
+  },
+  "Month_2": {
+   "mean": 1.849,
+   "median": 1.333,
+   "std": 1.804
+  },
+  "Month_3": {
+   "mean": 1.882,
+   "median": 1.333,
+   "std": 1.966
+  }
+ },
+ "quantiles": {
+  "0.05": 0.5,
+  "0.25": 0.833,
+  "0.5": 1.333,
+  "0.75": 2.167,
+  "0.95": 4.65,
+  "0.99": 9.667
+ },
+ "peak_median": {
+  "0": 1.333,
+  "1": 1.5
+ },
+ "dir_median": {
+  "0": 1.333,
+  "1": 1.5
+ },
+ "group_median": {
+  "425": {
+   "median": 1.5,
+   "mean": 2.163
+  },
+  "534": {
+   "median": 1.333,
+   "mean": 1.776
+  }
+ },
+ "pairs_by_group": {
+  "425": 171177,
+  "534": 696397
+ },
+ "nodes_by_group": {
+  "425": 41,
+  "534": 56
+ },
+ "buses_by_group": {
+  "425": 46,
+  "534": 156
+ },
+ "prev_missing_share": 0.05986809194374197,
+ "non_adjacent_share": 0.06053603786342123,
+ "neg_time_pairs": 49,
+ "hours": [
+  4,
+  22
+ ],
+ "iqr_outliers_share": 0.06322918851878917,
+ "files_by_month": {
+  "Month_1": 62,
+  "Month_2": 60,
+  "Month_3": 62
+ },
+ "dups_ignoring_file": 0
+}

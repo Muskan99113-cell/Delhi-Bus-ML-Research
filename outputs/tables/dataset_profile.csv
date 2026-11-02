@@ -1,0 +1,20 @@
+,value
+workbooks_read,184
+raw_records,924375
+records_after_dedup,924375
+duplicate_records_removed,0
+missing_cells,0
+distinct_bus_ids,202
+distinct_node_codes,56
+route_directions,"down, up"
+route_group_folders,"425, 534"
+months,"Month_1, Month_2, Month_3"
+min_sec_of_day,17298
+max_sec_of_day,79200
+adjacent_node_pairs_total,868417
+pairs_non_positive_interval,43
+pairs_over_max_interval,800
+modelling_samples,867574
+target_mean_min,1.852
+target_median_min,1.333
+target_std_min,1.874

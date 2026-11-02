@@ -1,0 +1,8 @@
+,0
+best_model,MLP Regressor
+residual_mean,0.08366038626086633
+residual_std,1.4234692091298726
+share_abs_err_lt_1min,0.8697391945965888
+share_abs_err_lt_0.5min,0.709109033118597
+median_abs_err,0.2642127884474371
+p95_abs_err,2.0245863651440383
